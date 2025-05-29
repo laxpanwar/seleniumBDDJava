@@ -5,20 +5,28 @@ import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
+import pages.HomePage;
 import pages.LoginPage;
+
+import static org.bouncycastle.oer.its.ieee1609dot2.basetypes.Duration.milliseconds;
 
 public class LoginStepDefinitions {
 
     private WebDriver driver;
     private LoginPage loginPage;
+    private HomePage homePage;
 
     @Before
     public void setup(){
+        WebDriverManager.chromedriver().setup(); // No need for manual exe file!
+//        WebDriver driver = new ChromeDriver();
         driver = new ChromeDriver();
+
     }
 
     @After
@@ -31,15 +39,17 @@ public class LoginStepDefinitions {
 
     @Given("I am on the OpenCart login page")
     public void i_am_on_the_open_cart_login_page() {
+
         driver.get("https://naveenautomationlabs.com/opencart/index.php?route=account/login");
         loginPage = new LoginPage(driver);
+
 
     }
 
     @Given("I have entered a valid username and password")
     public void i_have_entered_a_valid_username_and_password() {
-        loginPage.enterEmail("qatestertest@gmail.com");
-        loginPage.enterPassword("Test@123");
+        loginPage.enterEmail("qa1test@mailinator.com");
+        loginPage.enterPassword("test");
     }
 
     @Given("I have entered invalid {string} and {string}")
@@ -75,6 +85,21 @@ public class LoginStepDefinitions {
     public void i_should_be_redirected_to_the_password_reset_page() {
         // Assert that the current URL contains the password reset page route
         Assert.assertTrue(loginPage.getForgotPwdPageUrl().contains("account/forgotten"));
+    }
+
+    @When("I have entered valid product in the search bar")
+    public void i_have_entered_valid_product_in_search_bar() throws InterruptedException {
+        homePage = new HomePage(driver);
+        Thread.sleep(1000);
+        homePage.enterProduct("hp");
+        homePage.click_on_the_search_btn();
+
+    }
+
+    @Then("Product displayed correctly")
+    public void product_should_display_correctly(){
+        Assert.assertEquals(homePage.get_search_text(),"Search - hp");
+
     }
 }
 

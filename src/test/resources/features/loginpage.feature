@@ -26,3 +26,12 @@ Feature: Login Functionality for OpenCart E-commerce Website
   Scenario: Navigating to the forgotten password page
     When I click on the "Forgotten Password" link
     Then I should be redirected to the password reset page
+
+
+
+  Scenario: Successful search a product
+    Given I have entered a valid username and password
+    When I click on the login button
+    #Then I should be logged in successfully
+    When I have entered valid product in the search bar
+    Then Product displayed correctly
