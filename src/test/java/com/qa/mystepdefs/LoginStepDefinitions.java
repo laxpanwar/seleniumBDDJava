@@ -13,34 +13,30 @@ import org.testng.Assert;
 import pages.HomePage;
 import pages.LoginPage;
 import utils.ConfigReader;
+import utils.DriverFactory;
 
 import static org.bouncycastle.oer.its.ieee1609dot2.basetypes.Duration.milliseconds;
 
 public class LoginStepDefinitions {
 
     private WebDriver driver;
+
     private LoginPage loginPage;
     private HomePage homePage;
 
-    @Before
-    public void setup(){
-        WebDriverManager.chromedriver().setup(); // No need for manual exe file!
-//        WebDriver driver = new ChromeDriver();
-        driver = new ChromeDriver();
 
+    @Before(order = 1)          // runs after DriverFactory.initDriver()
+    public void bindDriver() {
+        driver = DriverFactory.getDriver();
     }
-
-    @After
-    public void tearDown(){
-        if(driver!=null){
-            driver.quit();
-        }
+    // Getter method to return the WebDriver instance
+    public WebDriver getDriver() {
+        return this.driver;
     }
-
 
     @Given("I am on the OpenCart login page")
     public void i_am_on_the_open_cart_login_page() {
-
+        //WebDriver driver = DriverFactory.getDriver();
         driver.get("https://naveenautomationlabs.com/opencart/index.php?route=account/login");
         loginPage = new LoginPage(driver);
 
@@ -90,19 +86,32 @@ public class LoginStepDefinitions {
         Assert.assertTrue(loginPage.getForgotPwdPageUrl().contains("account/forgotten"));
     }
 
-    @When("I have entered valid product in the search bar")
-    public void i_have_entered_valid_product_in_search_bar() throws InterruptedException {
-        homePage = new HomePage(driver);
-        Thread.sleep(1000);
-        homePage.enterProduct("hp");
-        homePage.click_on_the_search_btn();
-
-    }
-
-    @Then("Product displayed correctly")
-    public void product_should_display_correctly(){
-        Assert.assertEquals(homePage.get_search_text(),"Search - hp");
-
-    }
+//    @When("I have entered valid product in the search bar")
+//    public void i_have_entered_valid_product_in_search_bar() throws InterruptedException {
+//        homePage = new HomePage(driver);
+//        Thread.sleep(1000);
+//        homePage.enterProduct("hp");
+//        homePage.click_on_the_search_btn();
+//
+//    }
+//
+//    @Then("Product displayed correctly")
+//    public void product_should_display_correctly(){
+//        Assert.assertEquals(homePage.get_search_text(),"Search - hp");
+//
+//    }
+//
+//    @When("I have entered an invalid product in the search bar")
+//    public void entered_invalid_product_in_the_search_bar() throws InterruptedException {
+//        homePage= new HomePage(driver);
+//        Thread.sleep(1000);
+//        homePage.enterProduct("tomato");
+//        homePage.click_on_the_search_btn();
+//    }
+//
+//    @Then("Correct inavlid validation message should display")
+//    public void invalid_product_msg(){
+//        Assert.assertEquals(homePage.get_invalid_product_msg(),"There is no product that matches the search criteria.");
+//    }
 }
 

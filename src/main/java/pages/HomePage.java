@@ -12,7 +12,7 @@ public class HomePage {
     private By searchBar = By.xpath("//input[@placeholder='Search']");
     private By serach_btn = By.xpath("//span[@class='input-group-btn']//button[1]");
     private By serach_result = By.xpath("//div[@id='content']//h1[1]");
-
+    private By invalidProductMsg = By.xpath("//*[@id=\"content\"]/p[2]");
 
 
     // Constructor
@@ -33,6 +33,11 @@ public class HomePage {
 
     public String get_search_text(){
         WebElement search_text = driver.findElement(serach_result);
+        return search_text.getText();
+    }
+
+    public String get_invalid_product_msg(){
+        WebElement search_text = driver.findElement(invalidProductMsg);
         return search_text.getText();
     }
 
