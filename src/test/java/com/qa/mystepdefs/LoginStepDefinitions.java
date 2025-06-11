@@ -12,6 +12,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import pages.HomePage;
 import pages.LoginPage;
+import utils.ConfigReader;
 
 import static org.bouncycastle.oer.its.ieee1609dot2.basetypes.Duration.milliseconds;
 
@@ -48,8 +49,10 @@ public class LoginStepDefinitions {
 
     @Given("I have entered a valid username and password")
     public void i_have_entered_a_valid_username_and_password() {
-        loginPage.enterEmail("qa1test@mailinator.com");
-        loginPage.enterPassword("test");
+        String useremail = ConfigReader.getProperty("userEmail");
+        String userpassword = ConfigReader.getProperty("userPassword");
+        loginPage.enterEmail(useremail);
+        loginPage.enterPassword(userpassword);
     }
 
     @Given("I have entered invalid {string} and {string}")

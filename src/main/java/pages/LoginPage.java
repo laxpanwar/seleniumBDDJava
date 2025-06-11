@@ -25,11 +25,13 @@ public class LoginPage {
     // Methods
     public void enterEmail(String email) {
         WebElement emailInput = driver.findElement(emailInputLocator);
+        System.out.println(" User email is = "+email);
         emailInput.sendKeys(email);
     }
 
     public void enterPassword(String password) {
         WebElement passwordInput = driver.findElement(passwordInputLocator);
+        System.out.println("user password is = "+password);
         passwordInput.sendKeys(password);
     }
 
