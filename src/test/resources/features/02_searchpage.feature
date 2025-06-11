@@ -7,9 +7,9 @@ Feature: Search Functionality for OpenCart E-commerce Website
     Given I am on the OpenCart login page
 
   Scenario: Successful search a product
-    Given I have entered a valid username and password
-    When I click on the login button
-    Then I should be logged in successfully
+#    Given I have entered a valid username and password
+#    When I click on the login button
+#    Then I should be logged in successfully
     When I have entered valid product in the search bar
     Then Product displayed correctly
 

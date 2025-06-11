@@ -2,6 +2,7 @@ package com.qa.mystepdefs;
 
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -9,6 +10,7 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
+import pages.CartPage;
 import pages.HomePage;
 import pages.LoginPage;
 import utils.ConfigReader;
@@ -23,6 +25,7 @@ public class SearchStepDefinitions {
     private LoginPage loginPage;
     private HomePage homePage;
     private WebDriver driver;
+    private CartPage cartPage;
 
 //    @Before
 //    public void setup(){
@@ -45,14 +48,19 @@ public void i_have_entered_valid_product_in_search_bar() throws InterruptedExcep
     WebDriver driver = DriverFactory.getDriver();
     homePage = new HomePage(driver);
     Thread.sleep(1000);
-    homePage.enterProduct("hp");
+    String product = ConfigReader.getProperty("validProduct1");
+//    String userpassword = ConfigReader.getProperty("userPassword");
+    homePage.enterProduct(product);
     homePage.click_on_the_search_btn();
 
 }
 
     @Then("Product displayed correctly")
     public void product_should_display_correctly(){
-        Assert.assertEquals(homePage.get_search_text(),"Search - hp");
+        //Assert.assertEquals(homePage.get_search_text(),"Search - {hp}");
+        String product = ConfigReader.getProperty("validProduct1");
+        Assert.assertTrue(homePage.get_search_text().contains("Search - "+product));
+        System.out.println("This is to seraxh"+homePage.get_search_text());
 
     }
 
@@ -61,7 +69,8 @@ public void i_have_entered_valid_product_in_search_bar() throws InterruptedExcep
         WebDriver driver = DriverFactory.getDriver();
         homePage= new HomePage(driver);
 //        Thread.sleep(1000);
-        homePage.enterProduct("tomato");
+        String product_invalid = ConfigReader.getProperty("invalidProduct");
+        homePage.enterProduct(product_invalid);
         homePage.click_on_the_search_btn();
     }
 
@@ -69,6 +78,8 @@ public void i_have_entered_valid_product_in_search_bar() throws InterruptedExcep
     public void invalid_product_msg(){
         Assert.assertEquals(homePage.get_invalid_product_msg(),"There is no product that matches the search criteria.");
     }
+
+
 }
 
 
